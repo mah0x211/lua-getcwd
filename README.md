@@ -10,6 +10,11 @@ get working directory pathname.
 luarocks install getcwd
 ```
 
+## Error Handling
+
+the following functions return the `error` object created by https://github.com/mah0x211/lua-errno module.
+
+
 ## cwd, err = getcwd()
 
 get the absolute pathname of the current working directory.
@@ -17,5 +22,5 @@ get the absolute pathname of the current working directory.
 **Returns**
 
 - `cwd:string`: the absolute pathname of the current working directory.
-- `err:string`: error message on failure.
+- `err:error`: error object on failure.
 

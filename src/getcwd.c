@@ -21,10 +21,10 @@
  */
 
 #include <errno.h>
-#include <lauxlib.h>
-#include <lualib.h>
 #include <string.h>
 #include <unistd.h>
+// lua
+#include <lua_errno.h>
 
 static size_t CWD_BUFSIZ = PATH_MAX;
 static char *CWD_BUF     = NULL;
@@ -40,14 +40,15 @@ static int getcwd_lua(lua_State *L)
 
     // got error
     lua_pushnil(L);
-    lua_pushstring(L, strerror(errno));
-
+    lua_errno_new(L, errno, "getcwd");
     return 2;
 }
 
 LUALIB_API int luaopen_getcwd(lua_State *L)
 {
     long pathmax = pathconf(".", _PC_PATH_MAX);
+
+    lua_errno_loadlib(L);
 
     // set the maximum number of bytes in a pathname
     if (pathmax != -1) {
