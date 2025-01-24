@@ -14,10 +14,19 @@ dependencies = {
     "errno >= 0.3.0",
 }
 build = {
-    type = 'builtin',
-    modules = {
-        getcwd = {
-            sources = { 'src/getcwd.c' }
-        },
-    }
+    type = "make",
+    build_variables = {
+        LIB_EXTENSION = "$(LIB_EXTENSION)",
+        SRCDIR = "src",
+        CFLAGS = "$(CFLAGS)",
+        WARNINGS = "-Wall -Wno-trigraphs -Wmissing-field-initializers -Wreturn-type -Wmissing-braces -Wparentheses -Wno-switch -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wunknown-pragmas -Wshadow -Wsign-compare",
+        CPPFLAGS = "-I$(LUA_INCDIR)",
+        LDFLAGS = "$(LIBFLAG)",
+        GETCWD_COVERAGE = "$(GETCWD_COVERAGE)",
+    },
+    install_variables = {
+        LIB_EXTENSION = "$(LIB_EXTENSION)",
+        LIBDIR = "$(LIBDIR)",
+        LUA_INCDIR = "$(LUA_INCDIR)",
+    },
 }
