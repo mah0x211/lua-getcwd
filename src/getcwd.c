@@ -20,12 +20,14 @@
  *  DEALINGS IN THE SOFTWARE.
  */
 
+// depend
+#include "lua_errno.h"
+// lua
+#include <lauxlib.h>
+// system
 #include <errno.h>
 #include <limits.h>
-#include <string.h>
 #include <unistd.h>
-// lua
-#include <lua_errno.h>
 
 static size_t CWD_BUFSIZ = PATH_MAX;
 static char *CWD_BUF     = NULL;
