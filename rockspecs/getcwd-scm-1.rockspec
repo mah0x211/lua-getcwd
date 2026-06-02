@@ -1,3 +1,4 @@
+rockspec_format = "3.0"
 package = "getcwd"
 version = "scm-1"
 source = {
@@ -13,20 +14,27 @@ dependencies = {
     "lua >= 5.1",
     "errno >= 0.3.0",
 }
+build_dependencies = {
+    "luarocks-build-hooks >= 0.8.0",
+}
 build = {
-    type = "make",
-    build_variables = {
-        LIB_EXTENSION = "$(LIB_EXTENSION)",
-        SRCDIR = "src",
-        CFLAGS = "$(CFLAGS)",
-        WARNINGS = "-Wall -Wno-trigraphs -Wmissing-field-initializers -Wreturn-type -Wmissing-braces -Wparentheses -Wno-switch -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wunknown-pragmas -Wshadow -Wsign-compare",
-        CPPFLAGS = "-I$(LUA_INCDIR)",
-        LDFLAGS = "$(LIBFLAG)",
-        GETCWD_COVERAGE = "$(GETCWD_COVERAGE)",
+    type = "hooks",
+    before_build = "$(extra-vars)",
+    extra_variables = {
+        CFLAGS = "-Wall -Wno-trigraphs -Wmissing-field-initializers -Wreturn-type -Wmissing-braces -Wparentheses -Wno-switch -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wunknown-pragmas -Wshadow -Wsign-compare",
     },
-    install_variables = {
-        LIB_EXTENSION = "$(LIB_EXTENSION)",
-        LIBDIR = "$(LIBDIR)",
-        LUA_INCDIR = "$(LUA_INCDIR)",
+    conditional_variables = {
+        GETCWD_COVERAGE = {
+            CFLAGS = "--coverage",
+            LIBFLAG = "--coverage",
+        },
+    },
+    modules = {
+        ["getcwd"] = {
+            sources = "src/getcwd.c",
+            incdirs = {
+                "$(DEP_ERRNO_INCDIR)",
+            },
+        },
     },
 }
